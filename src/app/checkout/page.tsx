@@ -127,7 +127,7 @@ export default function CheckoutPage() {
             alert("Payment successful! Redirecting...");
             // Clear cart
             useCartStore.getState().clearCart();
-            window.location.href = '/';
+            window.location.href = '/orders';
           } else {
             alert("Payment verification failed.");
             setIsPayingNow(false);
