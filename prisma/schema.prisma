@@ -96,3 +96,23 @@ model OrderItem {
   price     Float
   order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  brand         String
+  model         String
+  processor     String
+  ram           String
+  storage       String
+  condition     String
+  price         Float
+  basePrice     Float
+  originalPrice Float
+  description   String
+  image         String
+  images        String[]
+  tags          String[]
+  specs         Json
+  tests         Json
+  stock         Boolean  @default(true)
+}

@@ -1,19 +1,17 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import prisma from '@/lib/prisma';
 import type { Metadata } from 'next';
 import ProductDetailClient from './ProductDetailClient';
-import { Product } from '@/store/useProductStore';
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-async function getProduct(id: string): Promise<Product | null> {
+async function getProduct(id: string) {
   try {
-    const filePath = path.join(process.cwd(), 'src/data/products.json');
-    const data = await fs.readFile(filePath, 'utf8');
-    const products: Product[] = JSON.parse(data);
-    return products.find(p => String(p.id) === String(id)) || null;
+    const product = await prisma.product.findUnique({
+      where: { id: Number(id) }
+    });
+    return product;
   } catch (error) {
     return null;
   }
@@ -70,6 +68,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
     );
   }
 
-  return <ProductDetailClient initialProduct={product} />;
+  return <ProductDetailClient initialProduct={product as any} />;
 }
 
